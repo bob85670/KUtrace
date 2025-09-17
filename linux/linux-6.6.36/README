@@ -1,11 +1,13 @@
-Installing KUtrace for Linux 6.6.36
-dsites 2024.07.15
+Installing KUtrace for Linux 6.6.36 (I use 6.6.106)
+dsites 2024.07.15 (2025.09.17)
 
 Download and unpack a copy of Linux 6.6.36 from kernel.org or one of its clones, 
 putting everything in a directory named linux-6.6.36 
 
 Install any tools needed for a kernel build. I follow the directions in 
   https://davidaugustat.com/linux/how-to-compile-linux-kernel-on-ubuntu
+
+Linux 6.6.106 download link: https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.6.106.tar.xz
 
 
 (1) Initial unpatched build, a version tailored to your specific machine
@@ -41,6 +43,7 @@ have a successful unmodified 6.6.36 kernel running.
 (2) Initial patched build
 Apply the patch file via
 $ cd linux-6.6.36
+copy the kutrace_patch_file_6.6.36.txt file to your downloaded linux kernel folder
 $ patch -p1 kutrace_patch_file_6.6.36.txt
 
 This changes about 24 files, installing new files include/linux/kutrace.h,
@@ -52,12 +55,19 @@ $make menuconfig
 Find the KUtrace configuration choice inserted by the patched arch/x86/Kconfig and 
 turn it on.
 
+press Enter/Esc twice to exit, and choose to save your changes
+Vertify by:
+$ cat .config | grep CONFIG_KUTRACE
+You should see CONFIG_KUTRACE=y in the .config file
+
 $ fakeroot make -j4
    This will be much faster because it only recompiles the changed files.
 $ sudo make modules_install
 $ sudo make install
 $ sudo reboot
    ... shift key for grub, login, uname to confirm
+
+The previous kernel without patches is xxxx.old. Do not choose it.
    
 
 (3) The loadable module
@@ -86,6 +96,7 @@ check   specifies whether to require the PTRACE privilege in a task that does
 (4) The control and postprocessing code
 From the github KUtrace code,
 $ cd postproc
+$ chmod +x "the build.sh file"
 $ ./build.sh
 
 This compiles the postprocessing programs.
@@ -96,8 +107,10 @@ From the github KUtrace code,
 $ cd postproc
 $ ./kutrace_control
 
-At the prompt, type "goipc<cr>"
-and at the next prompt, type "stop<cr>"
+At the prompt, type "goipc"
+Then enter.
+and at the next prompt, type "stop"
+Then enter
 
 go       starts a trace
 goipc    starts a trace that also includes instructions-per-cycle for each timespan
@@ -107,7 +120,8 @@ stop     stops a trace and writes the raw trace binary to a disk file
 
 This will write a raw trace file with a name like
   ku_20240709_152922_dclab-2_11686.trace
-  
+
+$ $ chmod +x "the postproc3.sh file"
 $ ./postproc3.sh ku_20240709_152922_dclab-2_11686.trace "Caption here"
 
 This will produce 
@@ -125,6 +139,8 @@ for some guidance on what to look for.
   
 
 (6) Go celebrate
+
+# TODO: write code to store the trace files in a new folder each.
 
 
 
