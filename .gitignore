@@ -1,0 +1,31 @@
+# Linux kernel build artifacts
+*.o
+*.ko
+*.mod
+*.cmd
+*.mod.c
+Module.symvers
+modules.order
+
+# KUtrace generated outputs
+*.html
+*.json
+*.png
+*.trace
+hello_world_trace
+
+# Optional: Exclude compiled binaries (adjust based on your needs)
+postproc/base40
+postproc/eventtospan3
+postproc/kuod
+postproc/kutrace_control
+postproc/kutrace_unittest
+postproc/makeself
+postproc/rawtoevent
+postproc/samptoname_k
+postproc/samptoname_u
+postproc/spantoprof
+postproc/spantospan
+postproc/spantotrim
+postproc/time_getpid
+postproc/unmakeself
