@@ -68,7 +68,8 @@ $ sudo reboot
    ... shift key for grub, login, uname to confirm
 
 The previous kernel without patches is xxxx.old. Do not choose it.
-   
+
+
 
 (3) The loadable module
 From the github KUtrace code, download the linux/module and postproc subdirectories
@@ -139,8 +140,3 @@ for some guidance on what to look for.
   
 
 (6) Go celebrate
-
-# TODO: write code to store the trace files in a new folder each.
-
-
-
